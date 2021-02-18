@@ -5,6 +5,8 @@
 
   <p>{{ state.activities.length }}</p>
 
+  <pre>{{ max }}</pre>
+
   <ul>
     <Day v-for="d in state.flatDates" :key="d" :day="d" />
   </ul>
@@ -30,6 +32,7 @@ export default defineComponent({
       gamertag,
       onSubmit,
 
+      max: activities.maxTime,
       state: activities.state,
     };
   },

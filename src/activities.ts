@@ -1,4 +1,4 @@
-import { reactive, readonly } from "vue";
+import { reactive, computed, readonly } from "vue";
 import axios from "axios";
 import { ServerResponse } from "bungie-api-ts/app";
 import { UserInfoCard } from "bungie-api-ts/user";
@@ -122,8 +122,26 @@ const createStore = () => {
     }
   };
 
+  // TODO: use for display ?
+  const maxTime = computed(() => {
+    const res: number[] = state.flatDates.map((d) => {
+      const r = state.dates[d.getFullYear()]?.[d.getMonth() + 1]?.[d.getDate()];
+
+      return !r
+        ? 0
+        : r.reduce(
+            (a: number, b: CustomHistoricalStatsPeriodGroup) =>
+              a + b.values["timePlayedSeconds"].basic.value,
+            0
+          );
+    });
+
+    return res.sort((a, b) => (a > b ? -1 : 1))[0];
+  });
+
   return {
     state: readonly(state),
+    maxTime,
     startSearch,
   };
 };

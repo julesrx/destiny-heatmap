@@ -16,13 +16,14 @@ export default defineComponent({
     const acts = computed(() => {
       const day = (props.day as unknown) as Date;
       const r = activities.state.dates[day.getFullYear()]?.[day.getMonth() + 1]?.[day.getDate()];
-      if (!r) return 0;
 
-      const seconds = r.reduce(
-        (a: number, b: CustomHistoricalStatsPeriodGroup) =>
-          a + b.values["timePlayedSeconds"].basic.value,
-        0
-      );
+      const seconds = !r
+        ? 0
+        : r.reduce(
+            (a: number, b: CustomHistoricalStatsPeriodGroup) =>
+              a + b.values["timePlayedSeconds"].basic.value,
+            0
+          );
 
       const hours = Math.trunc(seconds / 60 / 60);
       const minutes = Math.trunc(seconds / 60);
