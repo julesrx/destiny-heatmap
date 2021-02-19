@@ -1,9 +1,9 @@
 <template>
-  <li>{{ day }} : {{ acts }}</li>
+  <li>{{ date }} : {{ acts }}</li>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watch } from "vue";
+import { computed, defineComponent, defineProps } from "vue";
 
 import { CustomHistoricalStatsPeriodGroup } from "../interfaces";
 import activities from "../activities";
@@ -13,6 +13,9 @@ export default defineComponent({
     day: { type: Date, required: true },
   },
   setup(props) {
+    const intl = Intl.DateTimeFormat();
+    const date = computed(() => intl.format((props.day as unknown) as Date));
+
     const acts = computed(() => {
       const day = (props.day as unknown) as Date;
       const r = activities.state.dates[day.getFullYear()]?.[day.getMonth() + 1]?.[day.getDate()];
@@ -31,7 +34,7 @@ export default defineComponent({
       return `${hours}h ${minutes - hours * 60}m ${seconds - minutes * 60}s (${seconds}s)`;
     });
 
-    return { acts };
+    return { date, acts };
   },
 });
 </script>
