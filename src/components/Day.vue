@@ -1,8 +1,5 @@
 <template>
-  <li>
-    <div :style="{ width: `${pourcent}%` }"></div>
-    {{ date }} : {{ spent }} => ({{ pourcent }}%)
-  </li>
+  <div class="day" :style="style"></div>
 </template>
 
 <script lang="ts">
@@ -17,9 +14,8 @@ export default defineComponent({
   },
   setup(props) {
     const intl = Intl.DateTimeFormat();
-    const date = computed(() => intl.format((props.day as unknown) as Date));
 
-    const spent = computed(() => {
+    const secondsSpent = computed(() => {
       const day = (props.day as unknown) as Date;
       const r = activities.state.dates[day.getFullYear()]?.[day.getMonth() + 1]?.[day.getDate()];
 
@@ -30,25 +26,32 @@ export default defineComponent({
               a + b.values["timePlayedSeconds"].basic.value,
             0
           );
-
-      // const hours = Math.trunc(seconds / 60 / 60);
-      // const minutes = Math.trunc(seconds / 60);
-
-      // return `${hours}h ${minutes - hours * 60}m ${seconds - minutes * 60}s (${seconds}s)`;
     });
 
     const pourcent = computed(() =>
-      spent.value ? (spent.value / activities.maxTime.value) * 100 : 0
+      secondsSpent.value ? (secondsSpent.value / activities.maxTime.value) * 100 : 0
     );
 
-    return { date, spent, pourcent };
+    const style = computed(() => ({ height: `${pourcent.value}%` }));
+    const title = computed(() => {
+      const hours = Math.trunc(secondsSpent.value / 60 / 60);
+      const minutes = Math.trunc(secondsSpent.value / 60);
+
+      const time = `${hours}h ${minutes - hours * 60}m ${secondsSpent.value - minutes * 60}s (${
+        secondsSpent.value
+      }s)`;
+
+      `${intl.format((props.day as unknown) as Date)}: ${time}`;
+    });
+
+    return { style, title };
   },
 });
 </script>
 
 <style scoped>
-div {
+.day {
   background-color: red;
-  height: 10px;
+  width: 1px;
 }
 </style>
