@@ -75,5 +75,6 @@ input {
   text-align: center;
   font-family: inherit;
   font-size: 1.1em;
+  width: var(--searchWidth);
 }
 </style>

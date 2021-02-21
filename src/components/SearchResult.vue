@@ -27,7 +27,7 @@ export default defineComponent({
   props: {
     loading: Boolean,
     noresult: Boolean,
-    users: { type: [] as PropType<UserInfoCard[]>, required: true },
+    users: { type: Array as PropType<UserInfoCard[]>, required: true },
   },
   setup(_, { emit }) {
     const clearUsers = () => {
@@ -38,3 +38,23 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+ul {
+  position: absolute;
+  list-style: none;
+  justify-content: center;
+  padding: 0;
+  display: flex;
+  width: var(--searchWidth);
+}
+
+a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>
