@@ -27,6 +27,7 @@ export default defineComponent({
         const membershipId = params["membershipId"] as string;
 
         if (membershipType && membershipId) {
+          if (activities.state.profile) activities.cancel();
           activities.startSearch(membershipType, membershipId);
         }
       },

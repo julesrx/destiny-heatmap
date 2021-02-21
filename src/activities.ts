@@ -82,35 +82,41 @@ const createStore = () => {
   const fecthActivities = async (character: DestinyCharacterComponent, page: number) => {
     const count = 250;
 
-    const res = await http.get<ServerResponse<DestinyActivityHistoryResults>>(
-      `Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/Activities/`,
-      {
-        params: { count: count, page: page, mode: DestinyActivityModeType.None },
-        cancelToken: source.token,
-      }
-    );
-
-    const activities = res.data.Response.activities;
-    if (activities && activities.length) {
-      activities.forEach((a) => {
-        const startDate = new Date(a.period);
-        startDate.setSeconds(startDate.getSeconds() + a.values.startSeconds.basic.value);
-
-        const endDate = new Date(startDate.getTime());
-        endDate.setSeconds(startDate.getSeconds() + a.values.timePlayedSeconds.basic.value);
-
-        const act = { ...a, startDate, endDate };
-        state.activities.push(act);
-
-        const date = new Date(act.period);
-        try {
-          state.dates[date.getFullYear()][date.getMonth() + 1][date.getDate()].push(act);
-        } catch (ex) {
-          console.log(date);
+    try {
+      const res = await http.get<ServerResponse<DestinyActivityHistoryResults>>(
+        `Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/Activities/`,
+        {
+          params: { count: count, page: page, mode: DestinyActivityModeType.None },
+          cancelToken: source.token,
         }
-      });
+      );
 
-      fecthActivities(character, page + 3);
+      const activities = res.data.Response.activities;
+      if (activities && activities.length) {
+        activities.forEach((a) => {
+          const startDate = new Date(a.period);
+          startDate.setSeconds(startDate.getSeconds() + a.values.startSeconds.basic.value);
+
+          const endDate = new Date(startDate.getTime());
+          endDate.setSeconds(startDate.getSeconds() + a.values.timePlayedSeconds.basic.value);
+
+          const act = { ...a, startDate, endDate };
+          state.activities.push(act);
+
+          const date = new Date(act.period);
+          try {
+            state.dates[date.getFullYear()][date.getMonth() + 1][date.getDate()].push(act);
+          } catch (ex) {
+            console.log(date);
+          }
+        });
+
+        fecthActivities(character, page + 3);
+      }
+    } catch (ex) {
+      if (axios.isCancel(ex)) {
+        console.log("search canceled");
+      }
     }
   };
 
@@ -135,6 +141,7 @@ const createStore = () => {
     state: readonly(state),
     maxTime,
     startSearch,
+    cancel: source.cancel,
   };
 };
 
