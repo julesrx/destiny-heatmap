@@ -1,7 +1,7 @@
 import { reactive, computed, readonly } from "vue";
 import axios from "axios";
 import { ServerResponse } from "bungie-api-ts/app";
-import { UserInfoCard } from "bungie-api-ts/user";
+import { BungieMembershipType } from "bungie-api-ts/common";
 import {
   DestinyProfileResponse,
   DestinyCharacterComponent,
@@ -18,22 +18,23 @@ const source = CancelToken.source();
 
 const createStore = () => {
   const state = reactive({
+    profile: null as DestinyProfileResponse | null,
     activities: [] as CustomHistoricalStatsPeriodGroup[],
     dates: {} as any, // TODO: type this,
     flatDates: [] as Date[],
   });
 
-  const startSearch = (gamertag: string) => {
-    //   source.cancel("Search canceled");
-
+  const startSearch = (membershipType: BungieMembershipType, membershipId: string) => {
+    state.profile = null;
     state.activities = [];
     initDates();
 
-    fetchProfile(gamertag);
+    fetchProfile(membershipType, membershipId);
   };
 
   const initDates = () => {
     state.dates = {};
+    state.flatDates = [];
 
     const day = new Date("2017, Sept 1");
     const now = new Date();
@@ -56,19 +57,8 @@ const createStore = () => {
     }
   };
 
-  const fetchProfile = async (gamertag: string) => {
-    const usersres = await http.get<ServerResponse<UserInfoCard[]>>(
-      `Destiny2/SearchDestinyPlayer/-1/${encodeURIComponent(gamertag.trim())}/`,
-      { cancelToken: source.token }
-    );
-
-    // select profile instead
-    const user = usersres.data.Response[0];
-
-    const membershipType = user.membershipType;
-    const membershipId = user.membershipId;
-
-    const profileres = await http.get<ServerResponse<DestinyProfileResponse>>(
+  const fetchProfile = async (membershipType: BungieMembershipType, membershipId: string) => {
+    const res = await http.get<ServerResponse<DestinyProfileResponse>>(
       `Destiny2/${membershipType}/Profile/${membershipId}/`,
       {
         params: {
@@ -77,8 +67,10 @@ const createStore = () => {
       }
     );
 
-    const profile = profileres.data.Response;
+    const profile = res.data.Response;
     const characters = getDestinyCharacterComponents(profile);
+
+    state.profile = profile;
 
     characters.forEach((c) => {
       fecthActivities(c, 0);
