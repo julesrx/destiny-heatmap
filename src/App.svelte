@@ -33,7 +33,7 @@
             <li>
               <img
                 src={`https://bungie.net${player.destinyMemberships[0].iconPath}`}
-                class="h-4 w-4"
+                class="h-8 w-8"
                 alt={player.bungieGlobalDisplayName}
               />
               <span>{player.bungieGlobalDisplayName}</span>
