@@ -1,23 +1,7 @@
-import { createApp } from "vue";
-import { createRouter, createWebHashHistory } from "vue-router";
+import App from './App.svelte'
 
-import "./main.css";
+const app = new App({
+  target: document.getElementById('app')
+})
 
-import App from "./App.vue";
-import Home from "./views/Home.vue";
-import Timeline from "./views/Timeline.vue";
-
-const router = createRouter({
-  routes: [
-    { name: "Home", path: "/", component: Home },
-    { name: "Timeline", path: "/:membershipType/:membershipId", component: Timeline },
-    {
-      name: "NotFound",
-      path: "/:pathMatch(.*)*",
-      redirect: "/",
-    },
-  ],
-  history: createWebHashHistory(),
-});
-
-createApp(App).use(router).mount("#app");
+export default app
