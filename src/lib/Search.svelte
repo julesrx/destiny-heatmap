@@ -1,5 +1,5 @@
 <script lang="ts">
-  import api from '../api';
+  import api from '~/api';
   import type { ServerResponse } from 'bungie-api-ts/core';
   import type { UserSearchResponse, UserSearchResponseDetail } from 'bungie-api-ts/user';
 

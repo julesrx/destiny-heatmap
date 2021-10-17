@@ -8,8 +8,14 @@ export default defineConfig({
     windicss({
       scan: {
         dirs: ['.'],
-        fileExtensions: ['svelte', 'js', 'ts'] 
+        fileExtensions: ['svelte', 'js', 'ts']
       }
     })
-  ]
+  ],
+  resolve: {
+    alias: [
+      { find: '~', replacement: '/src' },
+      { find: 'lib', replacement: '/src/lib' }
+    ]
+  }
 });
