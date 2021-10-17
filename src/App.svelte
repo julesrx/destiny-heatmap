@@ -3,6 +3,8 @@
   import type { ServerResponse } from 'bungie-api-ts/core';
   import type { UserSearchResponse, UserSearchResponseDetail } from 'bungie-api-ts/user';
 
+  import Calendar from './lib/Calendar.svelte';
+
   let gamertag: string;
 
   let promise: Promise<UserSearchResponseDetail[]>;
@@ -20,6 +22,8 @@
 </script>
 
 <main>
+  <Calendar />
+
   <input type="text" name="Gamertag" placeholder="Gamertag..." bind:value={gamertag} />
 
   {#if promise}
