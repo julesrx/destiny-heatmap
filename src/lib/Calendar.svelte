@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
+  import Day from './Day.svelte';
+
   const dates: any = {};
 
   onMount(() => {
@@ -14,13 +16,11 @@
 
       if (!dates.hasOwnProperty(year)) dates[year] = {};
       if (!dates[year].hasOwnProperty(month)) dates[year][month] = {};
-      if (!dates[year][month].hasOwnProperty(date)) dates[year][month][date] = {};
+      if (!dates[year][month].hasOwnProperty(date))
+        dates[year][month][date] = new Date(year, month - 1, date);
 
       day.setDate(date + 1);
     }
-
-    console.log(dates);
-    console.log(Object.keys(dates['2018']));
   });
 </script>
 
@@ -28,16 +28,18 @@
   <div>
     <span>{year}</span>
 
-    {#each Object.keys(dates[year]) as month}
-      <div class="ml-4">
-        <span>{month}</span>
+    <div class="flex flex-wrap space-x-4">
+      {#each Object.keys(dates[year]) as month}
+        <div>
+          <span>{month}</span>
 
-        {#each Object.keys(dates[year][month]) as day}
-          <div class="ml-8">
-            <span>{day}</span>
+          <div class="grid grid-rows-7 grid-flow-col">
+            {#each Object.keys(dates[year][month]) as day}
+              <Day date={dates[year][month][day]} start={Number(day) === 1} />
+            {/each}
           </div>
-        {/each}
-      </div>
-    {/each}
+        </div>
+      {/each}
+    </div>
   </div>
 {/each}
