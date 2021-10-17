@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  import Day from './Day.svelte';
+  import Year from './Year.svelte';
 
   const dates: any = {};
 
@@ -24,22 +24,9 @@
   });
 </script>
 
-{#each Object.keys(dates) as year}
-  <div>
-    <span>{year}</span>
-
-    <div class="flex flex-wrap space-x-4">
-      {#each Object.keys(dates[year]) as month}
-        <div>
-          <span>{month}</span>
-
-          <div class="grid grid-rows-7 grid-flow-col">
-            {#each Object.keys(dates[year][month]) as day}
-              <Day date={dates[year][month][day]} start={Number(day) === 1} />
-            {/each}
-          </div>
-        </div>
-      {/each}
-    </div>
-  </div>
-{/each}
+<!-- space-y-8 not working -->
+<div >
+  {#each Object.keys(dates) as year}
+    <Year key={year} year={dates[year]} />
+  {/each}
+</div>
