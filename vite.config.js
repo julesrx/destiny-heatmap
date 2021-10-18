@@ -15,6 +15,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '~', replacement: '/src' },
+      { find: 'views', replacement: '/src/views' },
       { find: 'lib', replacement: '/src/lib' }
     ]
   }
