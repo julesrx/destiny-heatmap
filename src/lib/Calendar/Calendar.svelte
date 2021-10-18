@@ -1,7 +1,5 @@
 <script lang="ts">
   import type { DestinyHistoricalStatsPeriodGroup } from 'bungie-api-ts/destiny2';
-  import { getYear } from 'date-fns';
-
   import { onDestroy, onMount } from 'svelte';
 
   import Year from './Year.svelte';
