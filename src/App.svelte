@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import type { BungieMembershipType, ServerResponse } from 'bungie-api-ts/common';
+  import type { ServerResponse } from 'bungie-api-ts/common';
   import type { UserSearchResponseDetail } from 'bungie-api-ts/user';
   import type {
     DestinyActivityHistoryResults,
@@ -40,19 +40,19 @@
   });
 
   const fetchActivities = async (character: DestinyCharacterComponent, page: number = 0) => {
-    const mode = 5; //DestinyActivityModeType.AllPvP;
     const count = 250;
 
     const res = await api.get<ServerResponse<DestinyActivityHistoryResults>>(
       `Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/Activities/`,
       {
-        params: { count: count, mode: mode, page: page }
+        params: { count: count, mode: 0, page: page }
       }
     );
 
     if (!res.data.Response.activities) return;
 
-    activities.update(n => n.concat(res.data.Response.activities));
+    // updateActivities(res.data.Response.activities);
+    activities.update(a => a.concat(res.data.Response.activities));
     await fetchActivities(character, page + 1);
   };
 </script>

@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import type { DestinyHistoricalStatsPeriodGroup } from 'bungie-api-ts/destiny2';
+  import { getYear } from 'date-fns';
+
+  import { onDestroy, onMount } from 'svelte';
 
   import Year from './Year.svelte';
+  import { activities } from '~/stores';
 
   const dates: any = {};
 
@@ -22,11 +26,23 @@
       day.setDate(date + 1);
     }
   });
+
+  let activities_value: DestinyHistoricalStatsPeriodGroup[];
+  const activities_unsubscribe = activities.subscribe(value => (activities_value = value));
+  onDestroy(() => activities_unsubscribe());
+
+  // replace activities_value by object with key-value
 </script>
 
 <!-- space-y-8 not working -->
-<div >
+<div>
   {#each Object.keys(dates) as year}
-    <Year key={year} year={dates[year]} />
+    <Year
+      key={year}
+      year={dates[year]}
+      activities={activities_value.filter(
+        a => new Date(a.period).getFullYear().toString() === year
+      )}
+    />
   {/each}
 </div>
