@@ -94,15 +94,25 @@
   };
 </script>
 
-<!-- space-y-8 not working -->
-<div>
-  {#each Object.keys(dates) as year}
-    <Year
-      key={year}
-      year={dates[year]}
-      activities={activities_value.filter(
-        a => new Date(a.period).getFullYear().toString() === year
-      )}
-    />
-  {/each}
+<div class="space-y-4">
+  <div>
+    <p>Name:</p>
+    <p>Total Time in Destiny 2:</p>
+    <p>Total Time in Activities:</p>
+    <p>Destiny 2 Activity Count:</p>
+    <p>Current Streak:</p>
+    <p>Longest Streaks:</p>
+  </div>
+
+  <div>
+    {#each Object.keys(dates) as year}
+      <Year
+        key={year}
+        year={dates[year]}
+        activities={activities_value.filter(
+          a => new Date(a.period).getFullYear().toString() === year
+        )}
+      />
+    {/each}
+  </div>
 </div>
