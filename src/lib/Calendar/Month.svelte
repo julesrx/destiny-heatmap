@@ -17,8 +17,7 @@
       <Day
         date={month[day]}
         start={Number(day) === 1}
-        activityCount={activities.filter(a => new Date(a.period).getDate().toString() === day)
-          .length}
+        activities={activities.filter(a => new Date(a.period).getDate().toString() === day)}
       />
     {/each}
   </div>
