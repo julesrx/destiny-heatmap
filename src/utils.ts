@@ -68,3 +68,12 @@ export const getActivities = async (
 
   return res.data.Response.activities;
 };
+
+
+export const getBackgroundColorFromTimePlayed = (seconds: number) => {
+  const h = ((100 - seconds / 864) * 120) / 50 - 120;
+  const s = seconds / 86400 > 0 ? '100%' : '0%';
+  const l = seconds / 86400 > 0 ? (seconds / 864 > 50 ? 100 - seconds / 864 + '%' : '50%') : '29%';
+
+  return `hsl(${h}, ${s}, ${l})`;
+};
