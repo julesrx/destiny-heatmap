@@ -1,5 +1,8 @@
+import { format } from 'date-fns';
+
 export const getCalendarDays = (from: Date) => {
   const dates: any = {};
+  const days: string[] = [];
 
   const day = from;
   const now = new Date();
@@ -14,10 +17,12 @@ export const getCalendarDays = (from: Date) => {
     if (!dates[year][month].hasOwnProperty(date))
       dates[year][month][date] = new Date(year, month - 1, date);
 
+    days.push(format(day, 'yyyy-MM-dd'));
+
     day.setDate(date + 1);
   }
 
-  return dates;
+  return [days, dates];
 };
 
 export const formatSeconds = (seconds: number) => {
@@ -37,3 +42,6 @@ export const getBackgroundColorFromTimePlayed = (seconds: number) => {
 
   return `hsl(${h}, ${s}, ${l})`;
 };
+
+export const getStreak = (arr: boolean[]) =>
+  Math.max(...arr.reduce((res, n) => (n ? res[res.length - 1]++ : res.push(0), res), [0]));

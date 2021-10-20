@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import axios from 'axios';
+  import { throttle } from 'lodash-es';
   import type { BungieMembershipType } from 'bungie-api-ts/common';
   import type {
     DestinyHistoricalStatsPeriodGroup,
@@ -11,19 +12,38 @@
   import Year from 'lib/Calendar/Year.svelte';
   import { activities } from '../stores';
   import { getActivities, getProfile } from '../api';
-  import { formatSeconds, getCalendarDays } from '../utils';
+  import { formatSeconds, getCalendarDays, getStreak } from '../utils';
   import { APP_TITLE } from '../constants';
 
   export let membershipType: BungieMembershipType;
   export let membershipId: string;
 
   let dates: any = {};
-  onMount(() => (dates = getCalendarDays(new Date('2017, Sept 1'))));
+  let days: string[] = [];
+  onMount(() => {
+    [days, dates] = getCalendarDays(new Date('2017, Sept 1'));
+  });
 
   // replace activities_value by object with key-value
   let activities_value: DestinyHistoricalStatsPeriodGroup[];
   const activities_unsubscribe = activities.subscribe(value => (activities_value = value));
   onDestroy(() => activities_unsubscribe());
+
+  let longestActiveStreak = 0;
+  let longestInactiveStreak = 0;
+
+  const getActivityCountByDay = (acts: DestinyHistoricalStatsPeriodGroup[], day: string) =>
+    acts.filter(a => a.period.indexOf(day) > -1).length;
+
+  const setStreaks = throttle((acts: DestinyHistoricalStatsPeriodGroup[]) => {
+    if (!acts.length) return;
+
+    // FIXME: not working
+    longestActiveStreak = getStreak(days.map(d => getActivityCountByDay(acts, d) > 0));
+    longestInactiveStreak = getStreak(days.map(d => getActivityCountByDay(acts, d) === 0));
+  }, 2500);
+
+  $: setStreaks(activities_value);
 
   //--- Cancel tokens
   const CancelToken = axios.CancelToken;
@@ -83,7 +103,9 @@
     <p>Total Time in Activities: {formatSeconds(totalActivitiesTime)}</p>
     <p>Destiny 2 Activity Count: {activityCount}</p>
     <p>Current Streak:</p>
-    <p>Longest Streaks:</p>
+    <p>
+      Longest Streaks: {longestActiveStreak} days active | {longestInactiveStreak} days inactive
+    </p>
   </div>
 
   <div>
