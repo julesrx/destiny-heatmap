@@ -11,6 +11,7 @@
   import Year from 'lib/Calendar/Year.svelte';
   import { activities } from '../stores';
   import { formatSeconds, getActivities, getCalendarDays, getProfile } from '../utils';
+  import { APP_TITLE } from '../constants';
 
   export let membershipType: BungieMembershipType;
   export let membershipId: string;
@@ -65,7 +66,13 @@
     .map(a => a.values['timePlayedSeconds']?.basic.value ?? 0)
     .reduce((a, b) => a + b, 0);
   $: activityCount = activities_value.length;
+
+  $: title = name ? `${name} - ${APP_TITLE}` : APP_TITLE;
 </script>
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 
 <div class="space-y-4">
   <div>
