@@ -43,6 +43,7 @@
     characters.forEach(c => {
       fetchActivities(c, 0);
       fetchActivities(c, 1);
+      fetchActivities(c, 2);
     });
   });
   onDestroy(() => {
@@ -57,7 +58,7 @@
     if (!res) return;
 
     activities.update(a => a.concat(res));
-    fetchActivities(character, page + 2);
+    fetchActivities(character, page + 3);
   };
 
   $: name = profile?.userInfo.bungieGlobalDisplayName ?? '';
