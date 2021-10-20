@@ -16,7 +16,7 @@
   $: bgColor = getBackgroundColorFromTimePlayed(totalActivitiesTime);
 
   // Assumes Monday is the first day of the week. If it's sunday, set getDay(date) + 1
-  $: rowStart = start && `row-start-${getDay(date)}`;
+  $: rowStart = start && `row-start-${getDay(date)}`;// TODO: do this on Month component
 </script>
 
 <div
