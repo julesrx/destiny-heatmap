@@ -38,7 +38,10 @@
     profile = res.profile.data;
     characters = Object.keys(res.characters.data).map(key => (res.characters.data ?? {})[key]);
 
-    await Promise.all(characters.map(c => fetchActivities(c, 0)));
+    characters.forEach(c => {
+      fetchActivities(c, 0);
+      fetchActivities(c, 1);
+    });
   });
   onDestroy(() => {
     activities.update(() => []);
@@ -52,7 +55,7 @@
     if (!res) return;
 
     activities.update(a => a.concat(res));
-    fetchActivities(character, page + 1);
+    fetchActivities(character, page + 2);
   };
 
   $: name = profile?.userInfo.bungieGlobalDisplayName ?? '';
