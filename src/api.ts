@@ -24,6 +24,7 @@ export const getProfile = async (membershipType: BungieMembershipType, membershi
   return res.data.Response;
 };
 
+// Authenticated requests might receive more activities
 export const getActivities = async (
   character: DestinyCharacterComponent,
   page: number = 0,
