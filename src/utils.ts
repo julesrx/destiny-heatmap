@@ -1,13 +1,3 @@
-import type { CancelTokenSource } from 'axios';
-import type { BungieMembershipType, ServerResponse } from 'bungie-api-ts/common';
-import type {
-  DestinyActivityHistoryResults,
-  DestinyCharacterComponent,
-  DestinyProfileResponse
-} from 'bungie-api-ts/destiny2';
-
-import api from './api';
-
 export const getCalendarDays = (from: Date) => {
   const dates: any = {};
 
@@ -39,36 +29,6 @@ export const formatSeconds = (seconds: number) => {
 
   return `${hours}h = ${d}d ${h}h ${m}m`;
 };
-
-export const getProfile = async (membershipType: BungieMembershipType, membershipId: string) => {
-  const res = await api.get<ServerResponse<DestinyProfileResponse>>(
-    `Destiny2/${membershipType}/Profile/${membershipId}/`,
-    {
-      params: {
-        components: '100,200'
-      }
-    }
-  );
-
-  return res.data.Response;
-};
-
-export const getActivities = async (
-  character: DestinyCharacterComponent,
-  page: number = 0,
-  source: CancelTokenSource
-) => {
-  const res = await api.get<ServerResponse<DestinyActivityHistoryResults>>(
-    `Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/Activities/`,
-    {
-      params: { count: 250, mode: 0, page: page },
-      cancelToken: source.token
-    }
-  );
-
-  return res.data.Response.activities;
-};
-
 
 export const getBackgroundColorFromTimePlayed = (seconds: number) => {
   const h = ((100 - seconds / 864) * 120) / 50 - 120;

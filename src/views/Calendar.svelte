@@ -10,7 +10,8 @@
 
   import Year from 'lib/Calendar/Year.svelte';
   import { activities } from '../stores';
-  import { formatSeconds, getActivities, getCalendarDays, getProfile } from '../utils';
+  import { getActivities, getProfile } from '../api';
+  import { formatSeconds, getCalendarDays } from '../utils';
   import { APP_TITLE } from '../constants';
 
   export let membershipType: BungieMembershipType;
