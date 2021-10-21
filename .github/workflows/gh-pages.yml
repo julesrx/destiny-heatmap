@@ -1,0 +1,20 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ svelte ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.1
+    - name: Install and Build
+      run: |
+          npm ci
+          npm run build
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with:
+        branch: gh-pages
+        folder: dist
