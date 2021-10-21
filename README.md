@@ -1,6 +1,6 @@
 # Destiny Heatmap
 
-![Github Pages](https://github.com/julesrx/destiny-heatmap/actions/workflows/gh-pages.yml/badge.svg)
+[![Github Pages](https://github.com/julesrx/destiny-heatmap/actions/workflows/gh-pages.yml/badge.svg)](https://julesrx.github.io/destiny-heatmap)
 
 Destiny 2 Heatmap, with calendar view and play time.  
 Built with [Svelte 3](https://svelte.dev/), [Vite](https://vitejs.dev/) and [Windi CSS](https://windicss.org/).
