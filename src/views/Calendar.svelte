@@ -39,6 +39,7 @@
     if (!acts.length) return;
 
     // FIXME: not working
+    // https://stackoverflow.com/a/46874335/8164741
     longestActiveStreak = getStreak(days.map(d => getActivityCountByDay(acts, d) > 0));
     longestInactiveStreak = getStreak(days.map(d => getActivityCountByDay(acts, d) === 0));
   }, 2500);
