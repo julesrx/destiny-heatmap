@@ -8,7 +8,7 @@
 </script>
 
 <main class="pl-2 pt-2">
-  <Router>
+  <Router basepath={import.meta.env.VITE_BASE_PATH.toString()}>
     <h1 class="text-4xl mb-4"><Link to="/">Destiny 2 Heatmap</Link></h1>
 
     <Search />
