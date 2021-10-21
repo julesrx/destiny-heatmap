@@ -3,9 +3,9 @@
   import type { ServerResponse } from 'bungie-api-ts/core';
   import type { UserSearchResponse, UserSearchResponseDetail } from 'bungie-api-ts/user';
 
-  import api from '~/api';
+  import api from '../api';
 
-  import { profile } from '~/stores';
+  import { profile } from '../stores';
 
   let gamertag: string;
 
@@ -38,7 +38,7 @@
               on:click={() => profile.set(player)}
             >
               <Link
-                to={`/${player.destinyMemberships[0].membershipType}/${player.destinyMemberships[0].membershipId}`}
+                to={`${player.destinyMemberships[0].membershipType}/${player.destinyMemberships[0].membershipId}`}
               >
                 <img
                   src={`https://bungie.net${player.destinyMemberships[0].iconPath}`}
