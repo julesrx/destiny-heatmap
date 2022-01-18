@@ -2,7 +2,7 @@ name: GitHub Pages
 
 on:
   push:
-    branches: [ svelte ]
+    branches: [ main ]
 
 jobs:
   build:
