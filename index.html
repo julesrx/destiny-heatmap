@@ -2,12 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Destiny Timeline</title>
+
+    <link rel="icon" href="/favicon.ico" />
+
+    <title>Destiny Heatmap</title>
   </head>
-  <body>
+  <body class="bg-dark-900 text-[#fafafa]">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script>
+      (function () {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </body>
 </html>
