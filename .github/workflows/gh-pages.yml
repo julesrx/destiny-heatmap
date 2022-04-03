@@ -16,8 +16,9 @@ jobs:
        echo VITE_BASE_PATH=/destiny-heatmap/ >> .env
     - name: Install and Build
       run: |
-          npm ci
-          npm run build
+          npm i -g pnpm
+          pnpm i
+          pnpm build
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
