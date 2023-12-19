@@ -8,27 +8,41 @@
 
   let gamertag: string;
 
-  let promise: Promise<UserSearchResponseDetail[]>;
+  let promise: Promise<UserSearchResponseDetail[]> | null = null;
   const searchUser = async () => await searchProfile(gamertag);
 
   $: if (gamertag && gamertag.length) {
     promise = searchUser();
   }
+
+  const onClick = (player: UserSearchResponseDetail) => {
+    profile.set(player);
+    promise = null;
+  };
 </script>
 
-<form class="mb-6">
-  <input type="text" name="Gamertag" placeholder="Gamertag..." bind:value={gamertag} />
+<form class="mb-6 space-y-4">
+  <!-- svelte-ignore a11y-autofocus -->
+  <input
+    type="text"
+    name="Gamertag"
+    placeholder="Gamertag..."
+    bind:value={gamertag}
+    class="bg-transparent border-b focus:outline-none"
+    autofocus
+  />
 
   {#if promise}
     <div>
       {#await promise}
         <p>...searching</p>
       {:then players}
-        <div>
+        <div class="space-x-2">
           {#each players as player}
             <Link
               to={`${player.destinyMemberships[0].membershipType}/${player.destinyMemberships[0].membershipId}`}
-              on:click={() => profile.set(player)}
+              on:click={onClick}
+              class="flex space-x-2 items-center"
             >
               <img
                 src={`https://bungie.net${player.destinyMemberships[0].iconPath}`}
