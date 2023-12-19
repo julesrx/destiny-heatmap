@@ -45,7 +45,7 @@ export const getStreak = (arr: boolean[]) =>
   Math.max(...arr.reduce((res, n) => (n ? res[res.length - 1]++ : res.push(0), res), [0]));
 
 export const throttle = (fn: (...args: any) => void, delay: number) => {
-  let timerFlag = null; // Variable to keep track of the timer
+  let timerFlag: number | null = null; // Variable to keep track of the timer
 
   // Returning a throttled version
   return (...args: any) => {

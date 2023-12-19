@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Router, Link, Route } from 'svelte-routing';
 
-  import Search from 'lib/Search.svelte';
-  import Note from 'lib/Note.svelte';
-  import Calendar from 'views/Calendar.svelte';
-  import Home from 'views/Home.svelte';
+  import Search from './lib/Search.svelte';
+  import Note from './lib/Note.svelte';
+  import Calendar from './views/Calendar.svelte';
+  import Home from './views/Home.svelte';
 
   const basepath = '/destiny-heatmap/';
 </script>

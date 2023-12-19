@@ -1,4 +1,4 @@
-import type { BungieMembershipType, ServerResponse } from 'bungie-api-ts/common';
+import type { BungieMembershipType, ServerResponse } from 'bungie-api-ts/app';
 import type {
   DestinyProfileResponse,
   DestinyCharacterComponent,

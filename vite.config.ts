@@ -13,12 +13,5 @@ export default defineConfig({
         fileExtensions: ['svelte', 'js', 'ts']
       }
     })
-  ],
-  resolve: {
-    alias: [
-      { find: '~', replacement: '/src' },
-      { find: 'views', replacement: '/src/views' },
-      { find: 'lib', replacement: '/src/lib' }
-    ]
-  }
+  ]
 });

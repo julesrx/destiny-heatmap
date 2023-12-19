@@ -24,25 +24,21 @@
       {#await promise}
         <p>...searching</p>
       {:then players}
-        <ul>
+        <div>
           {#each players as player}
-            <li
-              class="flex space-x-2 items-center cursor-pointer"
+            <Link
+              to={`${player.destinyMemberships[0].membershipType}/${player.destinyMemberships[0].membershipId}`}
               on:click={() => profile.set(player)}
             >
-              <Link
-                to={`${player.destinyMemberships[0].membershipType}/${player.destinyMemberships[0].membershipId}`}
-              >
-                <img
-                  src={`https://bungie.net${player.destinyMemberships[0].iconPath}`}
-                  class="h-8 w-8"
-                  alt={player.bungieGlobalDisplayName}
-                />
-                <span>{player.bungieGlobalDisplayName}</span>
-              </Link>
-            </li>
+              <img
+                src={`https://bungie.net${player.destinyMemberships[0].iconPath}`}
+                class="h-8 w-8"
+                alt={player.bungieGlobalDisplayName}
+              />
+              <span>{player.bungieGlobalDisplayName}</span>
+            </Link>
           {/each}
-        </ul>
+        </div>
       {/await}
     </div>
   {/if}

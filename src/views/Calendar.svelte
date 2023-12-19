@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import type { BungieMembershipType } from 'bungie-api-ts/common';
   import type {
     DestinyHistoricalStatsPeriodGroup,
     DestinyCharacterComponent,
@@ -13,7 +12,7 @@
   import { formatSeconds, getCalendarDays, getStreak, throttle } from '../utils';
   import { APP_TITLE } from '../constants';
 
-  export let membershipType: BungieMembershipType;
+  export let membershipType: string;
   export let membershipId: string;
 
   let dates: any = {};
@@ -47,16 +46,16 @@
   //--- Cancel tokens
   const controller = new AbortController();
 
-  let profile: DestinyProfileComponent;
+  let profile: DestinyProfileComponent | undefined;
   let characters: DestinyCharacterComponent[] = [];
 
   onMount(async () => {
     activities.update(() => []);
 
-    const res = await getProfile(membershipType, membershipId);
+    const res = await getProfile(+membershipType, membershipId);
 
     profile = res.profile.data;
-    characters = Object.keys(res.characters.data).map(key => (res.characters.data ?? {})[key]);
+    characters = Object.keys(res.characters.data!).map(key => (res.characters.data ?? {})[key]);
 
     characters.forEach(c => {
       fetchActivities(c, 0);
