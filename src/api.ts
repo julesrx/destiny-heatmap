@@ -1,18 +1,21 @@
-import axios, { CancelTokenSource } from 'axios';
 import type { BungieMembershipType, ServerResponse } from 'bungie-api-ts/common';
 import type {
   DestinyProfileResponse,
   DestinyCharacterComponent,
   DestinyActivityHistoryResults
 } from 'bungie-api-ts/destiny2';
+import type { UserSearchResponse } from 'bungie-api-ts/user';
+import { ofetch } from 'ofetch';
 
-const instance = axios.create({
+console.log(import.meta.env.VITE_BUNGIE_API_KEY)
+
+const instance = ofetch.create({
   baseURL: 'https://stats.bungie.net/Platform/',
   headers: { 'X-Api-Key': import.meta.env.VITE_BUNGIE_API_KEY.toString() }
 });
 
 export const getProfile = async (membershipType: BungieMembershipType, membershipId: string) => {
-  const res = await instance.get<ServerResponse<DestinyProfileResponse>>(
+  const res = await instance<ServerResponse<DestinyProfileResponse>>(
     `Destiny2/${membershipType}/Profile/${membershipId}/`,
     {
       params: {
@@ -21,24 +24,30 @@ export const getProfile = async (membershipType: BungieMembershipType, membershi
     }
   );
 
-  return res.data.Response;
+  return res.Response;
 };
 
 // Authenticated requests might receive more activities
 export const getActivities = async (
   character: DestinyCharacterComponent,
   page: number = 0,
-  source: CancelTokenSource
+  signal: AbortSignal
 ) => {
-  const res = await instance.get<ServerResponse<DestinyActivityHistoryResults>>(
+  const res = await instance<ServerResponse<DestinyActivityHistoryResults>>(
     `Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/Activities/`,
     {
       params: { count: 250, mode: 0, page: page },
-      cancelToken: source.token
+      signal
     }
   );
 
-  return res.data.Response.activities;
+  return res.Response.activities;
 };
 
-export default instance;
+export const searchProfile = async (gamertag: string) => {
+  const res = await instance<ServerResponse<UserSearchResponse>>(
+    `User/Search/Prefix/${encodeURIComponent(gamertag.trim())}/0/`
+  );
+
+  return res.Response.searchResults;
+};

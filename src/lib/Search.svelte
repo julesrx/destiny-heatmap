@@ -1,22 +1,15 @@
 <script lang="ts">
   import { Link } from 'svelte-routing';
-  import type { ServerResponse } from 'bungie-api-ts/core';
-  import type { UserSearchResponse, UserSearchResponseDetail } from 'bungie-api-ts/user';
+  import type { UserSearchResponseDetail } from 'bungie-api-ts/user';
 
-  import api from '../api';
+  import { searchProfile } from '../api';
 
   import { profile } from '../stores';
 
   let gamertag: string;
 
   let promise: Promise<UserSearchResponseDetail[]>;
-  const searchUser = async () => {
-    const res = await api.get<ServerResponse<UserSearchResponse>>(
-      `User/Search/Prefix/${encodeURIComponent(gamertag.trim())}/0/ `
-    );
-
-    return res.data.Response.searchResults;
-  };
+  const searchUser = async () => await searchProfile(gamertag);
 
   $: if (gamertag && gamertag.length) {
     promise = searchUser();

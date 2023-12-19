@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import axios from 'axios';
   import { throttle } from 'lodash-es';
   import type { BungieMembershipType } from 'bungie-api-ts/common';
   import type {
@@ -47,8 +46,7 @@
   $: setStreaks(activities_value);
 
   //--- Cancel tokens
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
+  const controller = new AbortController();
 
   let profile: DestinyProfileComponent;
   let characters: DestinyCharacterComponent[] = [];
@@ -71,11 +69,11 @@
     activities.update(() => []);
     profile = undefined;
     characters = [];
-    source.cancel();
+    controller.abort();
   });
 
   const fetchActivities = async (character: DestinyCharacterComponent, page: number = 0) => {
-    const res = await getActivities(character, page, source);
+    const res = await getActivities(character, page, controller.signal);
     if (!res) return;
 
     activities.update(a => a.concat(res));
