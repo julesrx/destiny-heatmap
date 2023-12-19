@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { throttle } from 'lodash-es';
   import type { BungieMembershipType } from 'bungie-api-ts/common';
   import type {
     DestinyHistoricalStatsPeriodGroup,
@@ -11,7 +10,7 @@
   import Year from '../lib/Calendar/Year.svelte';
   import { activities } from '../stores';
   import { getActivities, getProfile } from '../api';
-  import { formatSeconds, getCalendarDays, getStreak } from '../utils';
+  import { formatSeconds, getCalendarDays, getStreak, throttle } from '../utils';
   import { APP_TITLE } from '../constants';
 
   export let membershipType: BungieMembershipType;
