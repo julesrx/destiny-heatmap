@@ -3,7 +3,7 @@
 [![Github Pages](https://github.com/julesrx/destiny-heatmap/actions/workflows/gh-pages.yml/badge.svg)](https://julesrx.github.io/destiny-heatmap)
 
 Destiny 2 Heatmap, with calendar view and play time.  
-Built with [Svelte 3](https://svelte.dev/), [Vite](https://vitejs.dev/) and [Windi CSS](https://windicss.org/).
+Built with [Svelte](https://svelte.dev/), [Vite](https://vitejs.dev/) and [Tailwind CSS](https://tailwindcss.com/).
 
 ## Note
 
@@ -12,9 +12,10 @@ This was built for personal use. If you need a more stable experience, please us
 
 ## How to run
 
-```
+```bash
 git clone git@github.com:julesrx/destiny-heatmap.git
 cd destiny-heatmap
-npm install
-npm run dev
+pnpm install
+# Configure the Bungie api key in the .env file
+pnpm run dev
 ```
