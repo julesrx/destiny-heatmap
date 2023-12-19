@@ -8,7 +8,7 @@
     DestinyProfileComponent
   } from 'bungie-api-ts/destiny2';
 
-  import Year from 'lib/Calendar/Year.svelte';
+  import Year from '../lib/Calendar/Year.svelte';
   import { activities } from '../stores';
   import { getActivities, getProfile } from '../api';
   import { formatSeconds, getCalendarDays, getStreak } from '../utils';

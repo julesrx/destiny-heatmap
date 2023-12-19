@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 export const getCalendarDays = (from: Date) => {
   const dates: any = {};
   const days: string[] = [];
@@ -17,7 +15,7 @@ export const getCalendarDays = (from: Date) => {
     if (!dates[year][month].hasOwnProperty(date))
       dates[year][month][date] = new Date(year, month - 1, date);
 
-    days.push(format(day, 'yyyy-MM-dd'));
+    days.push(day.toISOString().split('T')[0]);
 
     day.setDate(date + 1);
   }

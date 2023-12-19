@@ -7,8 +7,6 @@ import type {
 import type { UserSearchResponse } from 'bungie-api-ts/user';
 import { ofetch } from 'ofetch';
 
-console.log(import.meta.env.VITE_BUNGIE_API_KEY)
-
 const instance = ofetch.create({
   baseURL: 'https://stats.bungie.net/Platform/',
   headers: { 'X-Api-Key': import.meta.env.VITE_BUNGIE_API_KEY.toString() }

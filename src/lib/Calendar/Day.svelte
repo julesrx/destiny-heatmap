@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { getDay } from 'date-fns';
   import type { DestinyHistoricalStatsPeriodGroup } from 'bungie-api-ts/destiny2';
 
   import { getBackgroundColorFromTimePlayed } from '../../utils';
@@ -16,7 +15,7 @@
   $: bgColor = getBackgroundColorFromTimePlayed(totalActivitiesTime);
 
   // Assumes Monday is the first day of the week. If it's sunday, set getDay(date) + 1
-  $: rowStart = start && `row-start-${getDay(date)}`;// TODO: do this on Month component
+  $: rowStart = start && `row-start-${date.getDay()}`;
 </script>
 
 <div
