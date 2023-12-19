@@ -11,6 +11,6 @@
 
 <style lang="postcss">
   a {
-    @apply text-light-blue-900;
+    @apply text-blue-900;
   }
 </style>
