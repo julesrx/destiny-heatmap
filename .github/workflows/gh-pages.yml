@@ -13,7 +13,6 @@ jobs:
       run: |
        touch .env
        echo VITE_BUNGIE_API_KEY=${{ secrets.BUNGIE_API_KEY }} >> .env
-       echo VITE_BASE_PATH=/destiny-heatmap/ >> .env
     - name: Install and Build
       run: |
           npm i -g pnpm

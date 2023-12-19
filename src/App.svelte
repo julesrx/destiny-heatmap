@@ -6,7 +6,7 @@
   import Calendar from 'views/Calendar.svelte';
   import Home from 'views/Home.svelte';
 
-  const basepath = import.meta.env.VITE_BASE_PATH.toString();
+  const basepath = '/destiny-heatmap/';
 </script>
 
 <main class="pl-2 pt-2">
