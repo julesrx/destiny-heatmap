@@ -2,24 +2,30 @@ name: GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.3.1
-    - name: Set env variables
-      run: |
-       touch .env
-       echo VITE_BUNGIE_API_KEY=${{ secrets.BUNGIE_API_KEY }} >> .env
-    - name: Install and Build
-      run: |
-          npm i -g pnpm
-          pnpm i
-          pnpm build
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.5
-      with:
-        branch: gh-pages
-        folder: dist
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+          version: 8
+
+      - name: Create env file
+        run: echo "VITE_BUNGIE_API_KEY=${{ secrets.BUNGIE_API_KEY }}" > .env
+
+      - name: Build
+        run: pnpm build
+
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
