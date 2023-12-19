@@ -4,6 +4,7 @@ import windicss from 'vite-plugin-windicss';
 
 export default defineConfig({
   base: '/destiny-heatmap/',
+  server: { port: 3000 },
   plugins: [
     svelte(),
     windicss({
